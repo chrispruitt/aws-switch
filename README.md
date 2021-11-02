@@ -19,7 +19,7 @@ brew install chrispruitt/tap/aws-switch
 
 ### Install from source
 
-Install binary from [source](https://github.com/hackit-nashville/gokick/releases).
+Install binary from [source](https://github.com/chrispruitt/aws-switch/releases).
 
 ## Usage
 
