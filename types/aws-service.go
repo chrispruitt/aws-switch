@@ -2,7 +2,7 @@ package types
 
 type AWSService interface {
 	Halt() error
-	Start() error
+	Resume() error
 	GetARN() string
 	GetType() string
 }

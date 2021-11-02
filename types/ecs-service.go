@@ -26,8 +26,8 @@ func (s ECSService) Halt() error {
 	return err
 }
 
-func (s ECSService) Start() error {
-	log.Infof("Starting ECSService %v", s)
+func (s ECSService) Resume() error {
+	log.Infof("Resumeing ECSService %v", s)
 	_, err := config.EcsClient.UpdateService(&ecs.UpdateServiceInput{
 		Cluster:      aws.String(s.Cluster),
 		Service:      aws.String(s.ARN),

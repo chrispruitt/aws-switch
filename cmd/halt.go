@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/chrispruitt/aws-switch/lib"
-	_ "github.com/chrispruitt/aws-switch/state"
 	"github.com/spf13/cobra"
 )
 

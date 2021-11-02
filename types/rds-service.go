@@ -13,8 +13,8 @@ func (s RDSService) Halt() error {
 	return nil
 }
 
-func (s RDSService) Start() error {
-	log.Infof("Starting RDSService")
+func (s RDSService) Resume() error {
+	log.Infof("Resuming RDSService")
 	return nil
 }
 

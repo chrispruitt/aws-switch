@@ -9,12 +9,12 @@ import (
 )
 
 func init() {
-	StartCmd.PersistentFlags().StringArrayVar(&tagsInput, "tag", nil, "tags to identify resources to start. \"key=value\"")
+	ResumeCmd.PersistentFlags().StringArrayVar(&tagsInput, "tag", nil, "tags to identify resources to resume. \"key=value\"")
 }
 
-var StartCmd = &cobra.Command{
-	Use:   "start",
-	Short: "start a halted aws service",
+var ResumeCmd = &cobra.Command{
+	Use:   "resume",
+	Short: "Resume a halted aws service",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(tagsInput) == 0 {
@@ -28,6 +28,6 @@ var StartCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		lib.Start(tags)
+		lib.Resume(tags)
 	},
 }

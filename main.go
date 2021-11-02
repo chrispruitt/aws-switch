@@ -16,7 +16,7 @@ var version = "development"
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "aws-switch",
-	Short: "aws-switch is used as a starter cli project",
+	Short: "aws-switch is used to halt and resume all aws services by tag.",
 }
 
 func main() {

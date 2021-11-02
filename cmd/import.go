@@ -5,5 +5,6 @@ import "github.com/spf13/cobra"
 // Import is used to import all of these package's commands
 func Import(rootCmd *cobra.Command) {
 	rootCmd.AddCommand(HaltCmd)
-	rootCmd.AddCommand(StartCmd)
+	rootCmd.AddCommand(ResumeCmd)
+	rootCmd.AddCommand(ConfigureCmd)
 }

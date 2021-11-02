@@ -6,7 +6,7 @@ import (
 	"github.com/chrispruitt/aws-switch/state"
 )
 
-func Start(tags map[string]string) error {
+func Resume(tags map[string]string) error {
 	services, err := GetAWSServices(tags)
 	if err != nil {
 		return err
@@ -20,9 +20,9 @@ func Start(tags map[string]string) error {
 		}
 		// Remove service from state
 		if serviceState != nil {
-			err = serviceState.Start()
+			err = serviceState.Resume()
 			if err != nil {
-				return fmt.Errorf("Error starting service: %s", err)
+				return fmt.Errorf("Error resumeing service: %s", err)
 			}
 
 			err = state.DeleteService(service.GetARN())

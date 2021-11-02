@@ -10,7 +10,7 @@ Currenlty supports
 ## Usage
 
 ```
-    go run main.go help
+    go run main.go --help
 ```
 ## Roadmap
 - [ ] configure backend via cli

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -18,8 +17,7 @@ import (
 )
 
 var (
-	state            = State{}
-	saveStateEnabled = false
+	state = State{}
 )
 
 type UntypedJson map[string]interface{}
@@ -31,33 +29,24 @@ type StateAWSService struct {
 	Service json.RawMessage
 }
 
-func init() {
-	saveStateEnabled = len(config.S3StateBucket) > 0
-
-	if saveStateEnabled {
-		err := state.readFromS3()
-		if err != nil {
-			if aerr, ok := err.(awserr.Error); ok {
-				switch aerr.Code() {
-				case s3.ErrCodeNoSuchKey:
-					writeErr := state.writeToS3()
-					if writeErr != nil {
-						log.Errorf("Unable to initialize state. %v", err)
-						os.Exit(1)
-					}
-				default:
-					log.Errorf("Unable to read state from s3. %v", err)
-					os.Exit(1)
+func InitalizeState() error {
+	err := state.readFromS3()
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			case s3.ErrCodeNoSuchKey:
+				writeErr := state.writeToS3()
+				if writeErr != nil {
+					return fmt.Errorf("Unable to initialize state. %v", err)
 				}
-			} else {
-				log.Errorf("Unable to read state from s3. %v", err)
-				os.Exit(1)
+			default:
+				return fmt.Errorf("Unable to read state from s3. %v", err)
 			}
+		} else {
+			return fmt.Errorf("Unable to read state from s3. %v", err)
 		}
-	} else {
-		log.Errorf("State not configured.")
-		os.Exit(1)
 	}
+	return nil
 }
 
 func GetService(arn string) (AWSService, error) {
@@ -125,7 +114,7 @@ func (s *State) writeToS3() error {
 	// Push to s3
 	putObjectInput := &s3.PutObjectInput{
 		Body:   aws.ReadSeekCloser(bytes.NewReader(p)),
-		Bucket: aws.String(config.S3StateBucket),
+		Bucket: aws.String(config.GetS3StateBucket()),
 		Key:    aws.String(config.S3StateKey),
 	}
 
@@ -135,14 +124,14 @@ func (s *State) writeToS3() error {
 		return err
 	}
 
-	log.Debugf("State saved to s3://%s/%s", config.S3StateBucket, config.S3StateKey)
+	log.Debugf("State saved to s3://%s/%s", config.GetS3StateBucket(), config.S3StateKey)
 
 	return nil
 }
 
 func (s *State) readFromS3() error {
 	result, err := config.S3Client.GetObject(&s3.GetObjectInput{
-		Bucket: aws.String(config.S3StateBucket),
+		Bucket: aws.String(config.GetS3StateBucket()),
 		Key:    aws.String(config.S3StateKey),
 	})
 	if err != nil {
