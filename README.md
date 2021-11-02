@@ -43,7 +43,6 @@ Install binary from [source](https://github.com/chrispruitt/aws-switch/releases)
 ```
 
 ## Roadmap
-- [ ] configure backend via cli
 - [ ] different backends - local, dynamo
 - [ ] read configuration from yaml file or env vars
-- [ ] show changes and ask for confirmation before scaling up or down 
+- [x] show changes and ask for confirmation before scaling up or down 

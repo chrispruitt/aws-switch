@@ -25,7 +25,7 @@ func init() {
 
 var HaltCmd = &cobra.Command{
 	Use:   "halt",
-	Short: "halt an aws service",
+	Short: "Halt an aws service",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(tagsInput) == 0 {
