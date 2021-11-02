@@ -44,4 +44,6 @@ Install binary from [source](https://github.com/hackit-nashville/gokick/releases
 
 ## Roadmap
 - [ ] configure backend via cli
-- [ ] read configuration from yaml file instead of env vars
+- [ ] different backends - local, dynamo
+- [ ] read configuration from yaml file or env vars
+- [ ] show changes and ask for confirmation before scaling up or down 

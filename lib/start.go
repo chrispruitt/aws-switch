@@ -22,7 +22,7 @@ func Resume(tags map[string]string) error {
 		if serviceState != nil {
 			err = serviceState.Resume()
 			if err != nil {
-				return fmt.Errorf("Error resumeing service: %s", err)
+				return fmt.Errorf("Error resuming service: %s", err)
 			}
 
 			err = state.DeleteService(service.GetARN())
