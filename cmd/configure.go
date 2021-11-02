@@ -10,7 +10,7 @@ import (
 
 var ConfigureCmd = &cobra.Command{
 	Use:   "configure",
-	Short: "Creates an s3 bucket for the aws-switch state to reside.",
+	Short: "Creates an s3 bucket for the aws-switch state to reside",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		bucket, err := lib.Configure()
