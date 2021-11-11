@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"strings"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/resourcegroupstaggingapi"
 	"github.com/chrispruitt/aws-switch/config"
@@ -8,9 +10,20 @@ import (
 )
 
 func GetResourceArns(tags map[string]string, resourceType string) ([]string, error) {
+
+	tagFilters := []*resourcegroupstaggingapi.TagFilter{}
+
+	for k, v := range tags {
+		tagFilters = append(tagFilters, &resourcegroupstaggingapi.TagFilter{
+			Key:    aws.String(k),
+			Values: aws.StringSlice(strings.Split(v, ",")),
+		})
+	}
+
 	arns := []string{}
 	input := &resourcegroupstaggingapi.GetResourcesInput{
 		ResourceTypeFilters: aws.StringSlice([]string{resourceType}),
+		TagFilters:          tagFilters,
 	}
 
 	pageNum := 0

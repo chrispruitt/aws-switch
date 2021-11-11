@@ -19,7 +19,7 @@ var (
 )
 
 func init() {
-	HaltCmd.PersistentFlags().StringArrayVar(&tagsInput, "tag", nil, "tags to identify resources to halt - \"key=value\"")
+	HaltCmd.PersistentFlags().StringArrayVar(&tagsInput, "tag", nil, "tags to identify resources to halt - \"key=value,value\"")
 	HaltCmd.PersistentFlags().BoolVar(&autoApprove, "auto-approve", false, "skip interactive approval")
 }
 
