@@ -8,9 +8,9 @@ The basic idea:
 1. resume - scale resources back to previous value based on stored state
 
 Currenlty supports
-- [x] ecs:services
-- [ ] rds
-- [ ] emr
+- [x] ecs:services (does not include underlying compute if running on ec2)
+- [x] rds:clusters (provissioned only as serverless auto scales on its own)
+- [x] rds:db (all database instances that are not a part of a cluster)
 
 ### Homebrew
 ```bash
@@ -43,6 +43,10 @@ Install binary from [source](https://github.com/chrispruitt/aws-switch/releases)
 ```
 
 ## Roadmap
-- [ ] different backends - local, dynamo
+- [ ] --exclude-tag flag to optionally exclude resources with specific tags
+- [ ] different backends - local, dynamodb
 - [ ] read configuration from yaml file or env vars
 - [x] show changes and ask for confirmation before scaling up or down 
+- [ ] flag to select specific services - rds, ecs - default to all
+- [ ] show state
+- [ ] resume specific items in state - work around using a good tagging stradegty and just identify resources by tags

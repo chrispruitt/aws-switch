@@ -44,13 +44,28 @@ func GetResourceArns(tags map[string]string, resourceType string) ([]string, err
 
 func GetAWSServices(tags map[string]string) ([]AWSService, error) {
 	services := []AWSService{}
+
+	// Get ECS Services
 	ecsServices, err := GetECSServices(tags)
 	if err != nil {
 		return nil, err
 	}
 	services = append(services, ecsServices...)
 
-	// TODO RDS
+	// Get RDS Clusters
+	rdsClusters, err := GetRDSClusters(tags)
+	if err != nil {
+		return nil, err
+	}
+	services = append(services, rdsClusters...)
+
+	// Get RDS Clusters
+	rdsInstances, err := GetRDSInstances(tags)
+	if err != nil {
+		return nil, err
+	}
+	services = append(services, rdsInstances...)
+
 	// TODO EMR
 	// TODO etc...
 

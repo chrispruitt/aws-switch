@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ecs"
+	"github.com/aws/aws-sdk-go/service/rds"
 	"github.com/aws/aws-sdk-go/service/resourcegroupstaggingapi"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/sts"
@@ -27,6 +28,7 @@ var (
 	ResourceGroupsClient = resourcegroupstaggingapi.New(Sess)
 	S3Client             = s3.New(Sess)
 	STSClient            = sts.New(Sess)
+	RDSClient            = rds.New(Sess)
 )
 
 func init() {
