@@ -16,23 +16,25 @@ func GetRDSInstances(tags map[string]string) ([]types.AWSService, error) {
 		return nil, fmt.Errorf("Error getting service arns: %s", err)
 	}
 
-	output, err := config.RDSClient.DescribeDBInstances(&rds.DescribeDBInstancesInput{
-		Filters: []*rds.Filter{
-			{
-				Name:   aws.String("db-instance-id"),
-				Values: aws.StringSlice(RDSInstanceArns),
+	if len(RDSInstanceArns) > 0 {
+		output, err := config.RDSClient.DescribeDBInstances(&rds.DescribeDBInstancesInput{
+			Filters: []*rds.Filter{
+				{
+					Name:   aws.String("db-instance-id"),
+					Values: aws.StringSlice(RDSInstanceArns),
+				},
 			},
-		},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("Error describing service: %s", err)
-	}
-	for _, instance := range output.DBInstances {
-		// Filter out instances that are a part of a DB Cluster - they will be handled by the RDSCluster type
-		if instance.DBClusterIdentifier == nil {
-			RDSInstances = append(RDSInstances, types.RDSInstance{
-				ARN: *instance.DBInstanceArn,
-			})
+		})
+		if err != nil {
+			return nil, fmt.Errorf("Error describing service: %s", err)
+		}
+		for _, instance := range output.DBInstances {
+			// Filter out instances that are a part of a DB Cluster - they will be handled by the RDSCluster type
+			if instance.DBClusterIdentifier == nil {
+				RDSInstances = append(RDSInstances, types.RDSInstance{
+					ARN: *instance.DBInstanceArn,
+				})
+			}
 		}
 	}
 
