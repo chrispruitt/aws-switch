@@ -65,7 +65,7 @@ var HaltCmd = &cobra.Command{
 		for _, service := range services {
 			err := lib.Halt(service)
 			if err != nil {
-				fmt.Printf("Error halting service: %s\n", service.GetARN())
+				fmt.Printf("Error halting service: %s. Err: %s \n", service.GetARN(), err)
 				os.Exit(1)
 			} else {
 				fmt.Printf("Halting service: %s\n", service.GetARN())
