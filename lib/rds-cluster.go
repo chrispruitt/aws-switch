@@ -16,23 +16,25 @@ func GetRDSClusters(tags map[string]string) ([]types.AWSService, error) {
 		return nil, fmt.Errorf("Error getting service arns: %s", err)
 	}
 
-	output, err := config.RDSClient.DescribeDBClusters(&rds.DescribeDBClustersInput{
-		Filters: []*rds.Filter{
-			{
-				Name:   aws.String("db-cluster-id"),
-				Values: aws.StringSlice(RDSClusterArns),
+	if len(RDSClusterArns) > 0 {
+		output, err := config.RDSClient.DescribeDBClusters(&rds.DescribeDBClustersInput{
+			Filters: []*rds.Filter{
+				{
+					Name:   aws.String("db-cluster-id"),
+					Values: aws.StringSlice(RDSClusterArns),
+				},
 			},
-		},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("Error describing service: %s", err)
-	}
-	for _, cluster := range output.DBClusters {
-		// Only pertains to provisioned rds clusters
-		if *cluster.EngineMode == "provisioned" {
-			RDSClusters = append(RDSClusters, types.RDSCluster{
-				ARN: *cluster.DBClusterArn,
-			})
+		})
+		if err != nil {
+			return nil, fmt.Errorf("Error describing service: %s", err)
+		}
+		for _, cluster := range output.DBClusters {
+			// Only pertains to provisioned rds clusters
+			if *cluster.EngineMode == "provisioned" {
+				RDSClusters = append(RDSClusters, types.RDSCluster{
+					ARN: *cluster.DBClusterArn,
+				})
+			}
 		}
 	}
 
